@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/fatih/color"
 	color "github.com/fatih/color"
 )
 
