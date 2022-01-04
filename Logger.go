@@ -46,9 +46,12 @@ func (l *SLogger) InitAndGetCallstack(level LOGLEVEL, skip int, callerAndIgnore 
 	l.level = level
 	// l.callstack.Clean()
 	l.callstack.GetCallstack(skip+1, callerAndIgnore)
-	l.caller.File = l.callstack.callers[0].File
-	l.caller.Line = l.callstack.callers[0].Line
-	l.caller.Function = l.callstack.callers[0].Function
+	callers := l.callstack.GetCallers()
+	if callers != nil {
+		l.caller.File = callers[0].File
+		l.caller.Line = callers[0].Line
+		l.caller.Function = callers[0].Function
+	}
 }
 
 func (l *SLogger) InitAndPanicCallstack(level LOGLEVEL, skip int, callerAndIgnore string) {
@@ -56,9 +59,12 @@ func (l *SLogger) InitAndPanicCallstack(level LOGLEVEL, skip int, callerAndIgnor
 	l.level = level
 	// l.callstack.Clean()
 	l.callstack.GetCallstackWithPanic(skip+1, callerAndIgnore)
-	l.caller.File = l.callstack.callers[0].File
-	l.caller.Line = l.callstack.callers[0].Line
-	l.caller.Function = l.callstack.callers[0].Function
+	callers := l.callstack.GetCallers()
+	if callers != nil {
+		l.caller.File = callers[0].File
+		l.caller.Line = callers[0].Line
+		l.caller.Function = callers[0].Function
+	}
 }
 
 // func (l *SLogger) InitAndGetCallstack(level LOGLEVEL, skip int, callerAndIgnore string) {
