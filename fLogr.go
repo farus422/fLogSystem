@@ -22,10 +22,30 @@ func NewLog(level LOGLEVEL, format string, param ...interface{}) *SfLog {
 	}
 	return &l
 }
+
+func NewLogEx(level LOGLEVEL, format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.InitAndGetCallstack(level, 1, "")
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func NewLogPanic(level LOGLEVEL, format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.InitAndPanicCallstack(level, 1, "")
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
 func (l *SfLog) SetCaption(format string, param ...interface{}) *SfLog {
 	l.caption = fmt.Sprintf(format, param...)
 	return l
 }
+
 func (l *SfLog) AddItem(key string, value string) *SfLog {
 	if l.items == nil {
 		l.items = make([]SfLogItem, 0)
@@ -33,14 +53,17 @@ func (l *SfLog) AddItem(key string, value string) *SfLog {
 	l.items = append(l.items, SfLogItem{ItemKey: key, ItemValue: value})
 	return l
 }
+
 func (l *SfLog) AddCallstack(skip int, callerAndIgnore string) *SfLog {
 	l.SLogger.callstack.GetCallstack(skip+1, callerAndIgnore)
 	return l
 }
+
 func (l *SfLog) AddPanicCallstack(skip int, callerAndIgnore string) *SfLog {
 	l.SLogger.callstack.GetCallstackWithPanic(skip+1, callerAndIgnore)
 	return l
 }
+
 func (l *SfLog) Message() string {
 	msg := l.caption
 	if l.items != nil {
@@ -52,9 +75,11 @@ func (l *SfLog) Message() string {
 	}
 	return msg
 }
+
 func (l *SfLog) GetCaption() string {
 	return l.caption
 }
+
 func (l *SfLog) GetFunctionName() string {
 	return l.callstack.GetFunctionName(0)
 }

@@ -29,7 +29,7 @@ type SLogger struct {
 func (l *SLogger) Init(level LOGLEVEL) {
 	l.time = time.Now()
 	l.level = level
-	l.callstack.Clean()
+	// l.callstack.Clean()
 	pc, file, line, ok := runtime.Caller(2)
 	if ok {
 		_, l.caller.File = path.Split(file)
@@ -39,6 +39,26 @@ func (l *SLogger) Init(level LOGLEVEL) {
 			l.caller.Function = function.Name()
 		}
 	}
+}
+
+func (l *SLogger) InitAndGetCallstack(level LOGLEVEL, skip int, callerAndIgnore string) {
+	l.time = time.Now()
+	l.level = level
+	// l.callstack.Clean()
+	l.callstack.GetCallstack(skip+1, callerAndIgnore)
+	l.caller.File = l.callstack.callers[0].File
+	l.caller.Line = l.callstack.callers[0].Line
+	l.caller.Function = l.callstack.callers[0].Function
+}
+
+func (l *SLogger) InitAndPanicCallstack(level LOGLEVEL, skip int, callerAndIgnore string) {
+	l.time = time.Now()
+	l.level = level
+	// l.callstack.Clean()
+	l.callstack.GetCallstackWithPanic(skip+1, callerAndIgnore)
+	l.caller.File = l.callstack.callers[0].File
+	l.caller.Line = l.callstack.callers[0].Line
+	l.caller.Function = l.callstack.callers[0].Function
 }
 
 // func (l *SLogger) InitAndGetCallstack(level LOGLEVEL, skip int, callerAndIgnore string) {
