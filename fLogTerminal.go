@@ -19,7 +19,7 @@ func (sb *STerminal) OnLog(logger ILogger, pb *SPublisher, ctx context.Context) 
 	ltime := logger.Time()
 	level := logger.Level()
 	if color.NoColor {
-		fmt.Printf("\033[%dm%d-%02d-%02d %02d:%02d:%02d.%03d | %s | %s:%d %s() | \033[%dm%s\x1b[0m\n", color.FgBlue, ltime.Year(), ltime.Month(), ltime.Day(), ltime.Hour(), ltime.Minute(), ltime.Second(), ltime.Nanosecond()/1000000, LOGTypeNameShot[logger.Level()], logger.Filename(), logger.Line(), logger.FunctionName(), [logger.Level()], logger.Message())
+		fmt.Printf("\033[%dm%d-%02d-%02d %02d:%02d:%02d.%03d | %s | %s:%d %s() | \033[%dm%s\x1b[0m\n", color.FgBlue, ltime.Year(), ltime.Month(), ltime.Day(), ltime.Hour(), ltime.Minute(), ltime.Second(), ltime.Nanosecond()/1000000, LOGTypeNameShot[logger.Level()], logger.Filename(), logger.Line(), logger.FunctionName(), logLevelToColor[logger.Level()], logger.Message())
 	} else {
 		cbase := color.New(color.FgHiBlue)
 		cbase.Printf("%d-%02d-%02d %02d:%02d:%02d.%03d | %s | %s:%d %s() | ", ltime.Year(), ltime.Month(), ltime.Day(), ltime.Hour(), ltime.Minute(), ltime.Second(), ltime.Nanosecond()/1000000, LOGTypeNameShot[logger.Level()], logger.Filename(), logger.Line(), logger.FunctionName())
