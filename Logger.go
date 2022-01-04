@@ -1,6 +1,8 @@
 package fLogSystem
 
 import (
+	"path"
+	"runtime"
 	"time"
 
 	fcb "github.com/farus422/fCallstack"
@@ -18,6 +20,7 @@ type ILogger interface {
 type SLogger struct {
 	level     LOGLEVEL
 	time      time.Time
+	caller    fcb.SCaller
 	callstack fcb.SCallstack
 }
 
@@ -25,6 +28,15 @@ func (l *SLogger) Init(level LOGLEVEL) {
 	l.time = time.Now()
 	l.level = level
 	l.callstack.Clean()
+	pc, file, line, ok := runtime.Caller(2)
+	if ok {
+		_, l.caller.File = path.Split(file)
+		l.caller.Line = line
+		function := runtime.FuncForPC(pc)
+		if function != nil {
+			l.caller.Function = function.Name()
+		}
+	}
 }
 
 // func (l *SLogger) InitAndGetCallstack(level LOGLEVEL, skip int, callerAndIgnore string) {
@@ -47,13 +59,23 @@ func (l *SLogger) Time() time.Time {
 	return l.time
 }
 
-func (l *SLogger) FunctionName() string {
-	callers := l.callstack.GetCallers()
-	if callers == nil {
-		return ""
-	}
-	return callers[0].Function
+func (l *SLogger) Filename() string {
+	return l.caller.File
 }
+
+func (l *SLogger) Line() int {
+	return l.caller.Line
+}
+
+func (l *SLogger) FunctionName() string {
+	return l.caller.Function
+	// callers := l.callstack.GetCallers()
+	// if callers == nil {
+	// 	return ""
+	// }
+	// return callers[0].Function
+}
+
 func (l *SLogger) Callstack() []fcb.SCaller {
 	return l.callstack.GetCallers()
 }
