@@ -13,6 +13,8 @@ type ILogger interface {
 	Level() LOGLEVEL
 	Time() time.Time
 	Message() string
+	Filename() string
+	Line() int
 	FunctionName() string
 	Callstack() []fcb.SCaller
 }
