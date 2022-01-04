@@ -32,9 +32,9 @@ func NewLogEx(level LOGLEVEL, format string, param ...interface{}) *SfLog {
 	return &l
 }
 
-func NewLogPanic(level LOGLEVEL, format string, param ...interface{}) *SfLog {
+func NewLogPanic(level LOGLEVEL, callerAndIgnore string, format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.InitAndPanicCallstack(level, 1, "")
+	l.SLogger.InitAndPanicCallstack(level, 1, callerAndIgnore)
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
