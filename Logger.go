@@ -3,6 +3,7 @@ package fLogSystem
 import (
 	"path"
 	"runtime"
+	"strings"
 	"time"
 
 	fcb "github.com/farus422/fCallstack"
@@ -36,7 +37,10 @@ func (l *SLogger) Init(level LOGLEVEL) {
 		l.caller.Line = line
 		function := runtime.FuncForPC(pc)
 		if function != nil {
-			l.caller.Function = function.Name()
+			// l.caller.Function = function.Name()
+			_, funcname := path.Split(function.Name())
+			funcs := strings.SplitAfterN(funcname, ".", 2)
+			l.caller.Function = funcs[1]
 		}
 	}
 }
