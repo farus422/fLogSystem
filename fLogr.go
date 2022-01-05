@@ -14,25 +14,133 @@ type SfLog struct {
 	items   []SfLogItem
 }
 
-func NewLog(level LOGLEVEL, format string, param ...interface{}) *SfLog {
+func Trace(format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.Init(level)
+	l.SLogger.Init(LOGLEVELTrace)
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
 	return &l
 }
 
-func NewLogEx(level LOGLEVEL, format string, param ...interface{}) *SfLog {
+func TraceCS(format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.InitAndGetCallstack(level, 1, "")
+	l.SLogger.InitAndGetCallstack(LOGLEVELTrace, 1, "")
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
 	return &l
 }
 
-func NewLogPanic(level LOGLEVEL, callerAndIgnore string, format string, param ...interface{}) *SfLog {
+func Debug(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.Init(LOGLEVELDebug)
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func DebugCS(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.InitAndGetCallstack(LOGLEVELDebug, 1, "")
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func Info(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.Init(LOGLEVELInfo)
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func InfoCS(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.InitAndGetCallstack(LOGLEVELInfo, 1, "")
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func Success(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.Init(LOGLEVELSuccess)
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func SuccessCS(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.InitAndGetCallstack(LOGLEVELSuccess, 1, "")
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func Warning(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.Init(LOGLEVELWarning)
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func WarningCS(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.InitAndGetCallstack(LOGLEVELWarning, 1, "")
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func Error(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.Init(LOGLEVELError)
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func ErrorCS(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.InitAndGetCallstack(LOGLEVELError, 1, "")
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func Critical(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.Init(LOGLEVELCritical)
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func CriticalCS(format string, param ...interface{}) *SfLog {
+	l := SfLog{}
+	l.SLogger.InitAndGetCallstack(LOGLEVELCritical, 1, "")
+	if format != "" {
+		l.caption = fmt.Sprintf(format, param...)
+	}
+	return &l
+}
+
+func Panic(level LOGLEVEL, callerAndIgnore string, format string, param ...interface{}) *SfLog {
 	l := SfLog{}
 	l.SLogger.InitAndPanicCallstack(level, 1, callerAndIgnore)
 	if format != "" {
@@ -40,6 +148,33 @@ func NewLogPanic(level LOGLEVEL, callerAndIgnore string, format string, param ..
 	}
 	return &l
 }
+
+// func NewLog(level LOGLEVEL, format string, param ...interface{}) *SfLog {
+// 	l := SfLog{}
+// 	l.SLogger.Init(level)
+// 	if format != "" {
+// 		l.caption = fmt.Sprintf(format, param...)
+// 	}
+// 	return &l
+// }
+
+// func NewLogEx(level LOGLEVEL, format string, param ...interface{}) *SfLog {
+// 	l := SfLog{}
+// 	l.SLogger.InitAndGetCallstack(level, 1, "")
+// 	if format != "" {
+// 		l.caption = fmt.Sprintf(format, param...)
+// 	}
+// 	return &l
+// }
+
+// func NewLogPanic(level LOGLEVEL, callerAndIgnore string, format string, param ...interface{}) *SfLog {
+// 	l := SfLog{}
+// 	l.SLogger.InitAndPanicCallstack(level, 1, callerAndIgnore)
+// 	if format != "" {
+// 		l.caption = fmt.Sprintf(format, param...)
+// 	}
+// 	return &l
+// }
 
 func (l *SfLog) SetCaption(format string, param ...interface{}) *SfLog {
 	l.caption = fmt.Sprintf(format, param...)
