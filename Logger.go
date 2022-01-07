@@ -27,11 +27,11 @@ type SLogger struct {
 	callstack fcb.SCallstack
 }
 
-func (l *SLogger) Init(level LOGLEVEL) {
+func (l *SLogger) Init(level LOGLEVEL, skip int) {
 	l.time = time.Now()
 	l.level = level
 	// l.callstack.Clean()
-	pc, file, line, ok := runtime.Caller(2)
+	pc, file, line, ok := runtime.Caller(skip + 1)
 	if ok {
 		_, l.caller.File = path.Split(file)
 		l.caller.Line = line

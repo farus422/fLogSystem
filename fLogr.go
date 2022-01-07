@@ -16,7 +16,7 @@ type SfLog struct {
 
 func Trace(format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.Init(LOGLEVELTrace)
+	l.SLogger.Init(LOGLEVELTrace, 1)
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
@@ -34,7 +34,7 @@ func TraceCS(format string, param ...interface{}) *SfLog {
 
 func Debug(format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.Init(LOGLEVELDebug)
+	l.SLogger.Init(LOGLEVELDebug, 1)
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
@@ -52,7 +52,7 @@ func DebugCS(format string, param ...interface{}) *SfLog {
 
 func Info(format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.Init(LOGLEVELInfo)
+	l.SLogger.Init(LOGLEVELInfo, 1)
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
@@ -70,7 +70,7 @@ func InfoCS(format string, param ...interface{}) *SfLog {
 
 func Success(format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.Init(LOGLEVELSuccess)
+	l.SLogger.Init(LOGLEVELSuccess, 1)
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
@@ -88,7 +88,7 @@ func SuccessCS(format string, param ...interface{}) *SfLog {
 
 func Warning(format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.Init(LOGLEVELWarning)
+	l.SLogger.Init(LOGLEVELWarning, 1)
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
@@ -106,7 +106,7 @@ func WarningCS(format string, param ...interface{}) *SfLog {
 
 func Error(format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.Init(LOGLEVELError)
+	l.SLogger.Init(LOGLEVELError, 1)
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
@@ -124,7 +124,7 @@ func ErrorCS(format string, param ...interface{}) *SfLog {
 
 func Critical(format string, param ...interface{}) *SfLog {
 	l := SfLog{}
-	l.SLogger.Init(LOGLEVELCritical)
+	l.SLogger.Init(LOGLEVELCritical, 1)
 	if format != "" {
 		l.caption = fmt.Sprintf(format, param...)
 	}
