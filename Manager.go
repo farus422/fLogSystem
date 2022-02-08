@@ -90,9 +90,24 @@ var pbLogNodePool = sync.Pool{
 	},
 }
 
-// 返回false表示使用cancel方式shutdown
-func (m *SManager) Shutdown(timeout int) bool {
+func (m *SManager) WaitForAllDone() {
+	m.puberWG.Wait()
+}
+
+func (m *SManager) Cancel() {
+	m.cancel()
+}
+
+func (m *SManager) Shutdown(timeout int, autoCancel bool) (success bool, cancelled bool) {
+	select {
+	case <-m.ctx.Done():
+		cancelled = true
+	default:
+		cancelled = false
+	}
+	success = false
 	ch := make(chan struct{}, 0)
+
 	go func() {
 		node := pbLogNodePool.Get().(*sPbLinkNode)
 		m.logMutex.Lock()
@@ -106,20 +121,31 @@ func (m *SManager) Shutdown(timeout int) bool {
 		}
 		m.cond.Signal()
 		m.logMutex.Unlock()
-		m.puberWG.Wait()
+		m.WaitForAllDone()
 		ch <- struct{}{}
 	}()
+
 	select {
 	case <-ch:
-		return true
+		success = true
+		return
 	case <-time.After(time.Duration(timeout) * time.Millisecond):
-		m.cancel()
+		if autoCancel == false {
+			return
+		}
+		cancelled = true
+		m.Cancel()
+	}
+
+	if timeout < 100 {
+		timeout = 100
 	}
 	select {
 	case <-ch:
+		success = true
 	case <-time.After(time.Duration(timeout) * time.Millisecond):
 	}
-	return false
+	return
 }
 func (m *SManager) publish(log ILogger, pb *SPublisher) {
 	level := log.Level()
