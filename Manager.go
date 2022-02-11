@@ -106,7 +106,7 @@ func (m *SManager) Shutdown(timeout int, autoCancel bool) (success bool, cancell
 		cancelled = false
 	}
 	success = false
-	ch := make(chan struct{}, 0)
+	ch := make(chan struct{}, 1)
 
 	go func() {
 		node := pbLogNodePool.Get().(*sPbLinkNode)
