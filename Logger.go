@@ -31,8 +31,9 @@ func (l *SLogger) Init(level LOGLEVEL, skip int) {
 	l.time = time.Now()
 	l.level = level
 	// l.callstack.Clean()
-	pc, file, line, ok := runtime.Caller(skip + 1)
-	if ok {
+	if pc, file, line, ok := runtime.Caller(skip + 1); ok {
+		_, l.caller.File = path.Split(file)
+		l.caller.Line = line
 		function := runtime.FuncForPC(pc)
 		if function != nil {
 			// l.caller.Function = function.Name()
@@ -41,11 +42,10 @@ func (l *SLogger) Init(level LOGLEVEL, skip int) {
 			l.caller.Function = funcs[1]
 		}
 	} else {
-		file = "-----"
-		line = 0
+		l.caller.Line = 0
+		l.caller.File = "--< fetch failed >--"
+		l.caller.Function = "--< fetch failed >--"
 	}
-	_, l.caller.File = path.Split(file)
-	l.caller.Line = line
 }
 
 func (l *SLogger) InitAndGetCallstack(level LOGLEVEL, skip int, callerAndIgnore string) {
