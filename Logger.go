@@ -33,8 +33,6 @@ func (l *SLogger) Init(level LOGLEVEL, skip int) {
 	// l.callstack.Clean()
 	pc, file, line, ok := runtime.Caller(skip + 1)
 	if ok {
-		_, l.caller.File = path.Split(file)
-		l.caller.Line = line
 		function := runtime.FuncForPC(pc)
 		if function != nil {
 			// l.caller.Function = function.Name()
@@ -42,7 +40,12 @@ func (l *SLogger) Init(level LOGLEVEL, skip int) {
 			funcs := strings.SplitAfterN(funcname, ".", 2)
 			l.caller.Function = funcs[1]
 		}
+	} else {
+		file = "-----"
+		line = 0
 	}
+	_, l.caller.File = path.Split(file)
+	l.caller.Line = line
 }
 
 func (l *SLogger) InitAndGetCallstack(level LOGLEVEL, skip int, callerAndIgnore string) {
